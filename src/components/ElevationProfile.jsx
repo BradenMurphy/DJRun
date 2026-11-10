@@ -11,9 +11,14 @@ const segmentAt = (km) => SEGMENTS.find((s) => km >= s.startKm && km < s.endKm) 
  * Height profile of the whole run, coloured by segment.
  * Hover (or drag a finger along it) to read km, height and runner; the
  * matching spot is marked on the map via onCursor.
+ *
+ * Touch: sideways drags scrub the chart, up/down swipes still scroll the page
+ * (touch-action: pan-y on the container). The reading stays after lifting the
+ * finger and clears on a tap anywhere else.
  */
 export default function ElevationProfile({ activeId, onHover, onCursor }) {
   const wrapRef = useRef(null);
+  const svgRef = useRef(null);
   const [width, setWidth] = useState(720);
   const [hoverKm, setHoverKm] = useState(null);
 
@@ -22,6 +27,16 @@ export default function ElevationProfile({ activeId, onHover, onCursor }) {
     ro.observe(wrapRef.current);
     return () => ro.disconnect();
   }, []);
+
+  // While a reading is showing, a tap or click anywhere outside the chart clears it.
+  useEffect(() => {
+    if (hoverKm == null) return;
+    const onDown = (e) => {
+      if (!wrapRef.current?.contains(e.target)) clear();
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => document.removeEventListener('pointerdown', onDown);
+  });
 
   const narrow = width < 520;
   const height = narrow ? 190 : 230;
@@ -54,13 +69,24 @@ export default function ElevationProfile({ activeId, onHover, onCursor }) {
   for (let k = 0; k <= TOTAL_KM; k += kmStep) xTicks.push(k);
 
   function track(e) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const px = ((e.clientX - rect.left) / rect.width) * width;
+    const rect = svgRef.current.getBoundingClientRect();
+    const px = e.clientX - rect.left;
     const km = Math.min(TOTAL_KM, Math.max(0, ((px - MARGIN.left) / plotW) * TOTAL_KM));
     const rounded = Math.round(km / STEP_KM) * STEP_KM;
     setHoverKm(rounded);
     onCursor(rounded);
     onHover(segmentAt(rounded).id);
+  }
+
+  function onPointerDown(e) {
+    // Keep receiving moves for this finger even if it drifts off the chart.
+    if (e.pointerType !== 'mouse') e.currentTarget.setPointerCapture?.(e.pointerId);
+    track(e);
+  }
+
+  // A mouse leaving the chart clears the reading; a finger lifting keeps it.
+  function onPointerLeave(e) {
+    if (e.pointerType === 'mouse') clear();
   }
 
   function clear() {
@@ -76,11 +102,17 @@ export default function ElevationProfile({ activeId, onHover, onCursor }) {
   return (
     <figure className="profile">
       <figcaption className="profile-caption">
-        Height above sea level along the run, from {LOWEST} m to {HIGHEST} m. Hover or drag along
-        it to see where you are on the map.
+        Height above sea level along the run, from {LOWEST} m to {HIGHEST} m. Hover over it, or
+        slide your finger along it, to see where you are on the map.
       </figcaption>
-      <div className="profile-chart" ref={wrapRef}>
-        <svg width={width} height={height} role="img" aria-label={`Elevation profile, ${LOWEST} to ${HIGHEST} metres`}>
+      <div
+        className="profile-chart"
+        ref={wrapRef}
+        onPointerDown={onPointerDown}
+        onPointerMove={track}
+        onPointerLeave={onPointerLeave}
+      >
+        <svg ref={svgRef} width={width} height={height} role="img" aria-label={`Elevation profile, ${LOWEST} to ${HIGHEST} metres`}>
           {yTicks.map((m) => (
             <g key={m}>
               <line x1={MARGIN.left} x2={width - MARGIN.right} y1={y(m)} y2={y(m)} className="profile-grid" />
@@ -125,19 +157,6 @@ export default function ElevationProfile({ activeId, onHover, onCursor }) {
               <circle cx={x(hoverKm)} cy={y(heightAtKm(hoverKm))} r="5" fill={hoverSeg.color} className="profile-dot" />
             </g>
           )}
-
-          <rect
-            x={MARGIN.left}
-            y={MARGIN.top}
-            width={plotW}
-            height={plotH}
-            fill="transparent"
-            className="profile-hit"
-            onPointerMove={track}
-            onPointerDown={track}
-            onPointerLeave={clear}
-            onPointerCancel={clear}
-          />
         </svg>
 
         {hoverKm != null && (

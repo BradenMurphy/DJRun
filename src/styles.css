@@ -337,6 +337,12 @@ p {
 .profile-chart {
   position: relative;
   width: 100%;
+  cursor: crosshair;
+  /* Up/down swipes still scroll the page; sideways drags scrub the chart.
+     Must sit on this box: browsers ignore touch-action on SVG shapes. */
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .profile-chart svg {
@@ -368,12 +374,6 @@ p {
 .profile-dot {
   stroke: var(--field);
   stroke-width: 2;
-}
-
-.profile-hit {
-  cursor: crosshair;
-  /* Vertical swipes still scroll the page; horizontal drags scrub the chart. */
-  touch-action: pan-y;
 }
 
 .profile-tip {
