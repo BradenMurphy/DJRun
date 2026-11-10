@@ -1,4 +1,4 @@
-import { SEGMENTS, TBC, TOTAL_KM, formatDistance } from '../data/legs.js';
+import { AFTER_RUN, SEGMENTS, TBC, TOTAL_KM, formatDistance } from '../data/legs.js';
 import { elevationBetween } from '../lib/elevation.js';
 import Flag from './Flag.jsx';
 
@@ -43,6 +43,14 @@ function Ribbon() {
             )}
           </li>
         ))}
+        <li className="section-card section-card--after">
+          <h3 className="section-name">{AFTER_RUN.title}</h3>
+          <p className="section-after-plan">{AFTER_RUN.plan}</p>
+          <p className="section-meta">{AFTER_RUN.address}</p>
+          <a className="section-directions" href={AFTER_RUN.directionsUrl} target="_blank" rel="noopener noreferrer">
+            Get directions
+          </a>
+        </li>
       </ol>
     </div>
   );

@@ -55,6 +55,14 @@ const RELAY = [
   },
 ];
 
+// Where we go after the run. Shown after the last section at the top of the page.
+export const AFTER_RUN = {
+  title: 'After the run',
+  plan: 'Beers at Starke Brews',
+  address: 'Starke Estate, Contermanskloof Road, Durbanville',
+  directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Starke+Brews+Contermanskloof+Road+Durbanville',
+};
+
 // ---------------------------------------------------------------------------
 
 const round = (n) => Math.round(n * 1000) / 1000;

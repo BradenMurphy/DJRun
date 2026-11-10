@@ -206,6 +206,22 @@ p {
   line-height: 1.45;
 }
 
+/* Not part of the route, so a dashed rule in the flag's gold instead of a section colour. */
+.section-card--after {
+  border-top: 4px dashed #e8b021;
+}
+
+.section-after-plan {
+  margin: 4px 0 0;
+  font-weight: 600;
+}
+
+.section-directions {
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
 .section-runners--tbc {
   font-weight: 400;
   color: var(--ink-soft);
