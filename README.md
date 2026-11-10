@@ -39,6 +39,8 @@ Routing uses the public OpenStreetMap foot router (routing.openstreetmap.de).
 
 Pushing to `main` builds and deploys via `.github/workflows/deploy.yml`.
 One-time setup: in the GitHub repo, go to **Settings → Pages → Source** and
-choose **GitHub Actions**. The site is served at
-`https://<username>.github.io/DJRun/`. If the repo is renamed, update `base` in
-`vite.config.js` to match.
+choose **GitHub Actions**. The site is served at the custom domain
+https://dj.pixelstreamsystems.co.za/ (set under **Settings → Pages → Custom
+domain**), so `base` in `vite.config.js` is `/`. If the custom domain is ever
+removed, the site moves to `https://<username>.github.io/DJRun/` and `base`
+must change back to `/DJRun/`.

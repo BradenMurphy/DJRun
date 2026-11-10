@@ -21,6 +21,6 @@ if not exist node_modules (
   )
 )
 
-echo Starting DJ Run 2027 at http://localhost:5173/DJRun/
+echo Starting DJ Run 2027 at http://localhost:5173/
 call npm run dev -- --open
 pause
