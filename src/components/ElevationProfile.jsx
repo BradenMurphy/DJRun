@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { SEGMENTS, TOTAL_KM, joinNames } from '../data/legs.js';
+import { SEGMENTS, TOTAL_KM, runnersLabel } from '../data/legs.js';
 import { HEIGHTS, HIGHEST, LOWEST, STEP_KM, heightAtKm } from '../lib/elevation.js';
 
 const MARGIN = { top: 14, right: 14, bottom: 30, left: 48 };
@@ -150,7 +150,8 @@ export default function ElevationProfile({ activeId, onHover, onCursor }) {
           >
             <strong>{heightAtKm(hoverKm)} m</strong>
             <span>km {hoverKm.toFixed(1)}</span>
-            <span>{joinNames(hoverSeg.runners)}</span>
+            <span>{hoverSeg.name}</span>
+            <span>{runnersLabel(hoverSeg)}</span>
           </div>
         )}
       </div>

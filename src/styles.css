@@ -164,28 +164,51 @@ p {
   margin-top: 6px;
 }
 
-.ribbon-legend {
+/* Sections under the bar: the route name, then who is running it. */
+.sections {
   list-style: none;
-  margin: 14px 0 0;
+  margin: 24px 0 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 22px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 20px 24px;
 }
 
-.ribbon-legend li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.section-card {
+  border-top: 4px solid var(--seg);
+  padding-top: 10px;
 }
 
-.ribbon-legend li::before {
-  content: '';
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  background: var(--seg);
-  flex: none;
+.section-name {
+  font-size: 1.35rem;
+  line-height: 1.05;
+}
+
+.section-meta {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.section-elevation {
+  display: flex;
+  gap: 14px;
+  margin: 2px 0 10px;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.section-runners {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.section-runners--tbc {
+  font-weight: 400;
+  color: var(--ink-soft);
 }
 
 /* ---------- Sections ---------- */
@@ -508,7 +531,7 @@ p {
   gap: 4px;
 }
 
-.relay-runners {
+.relay-name {
   font-weight: 600;
   font-size: 1.15rem;
 }

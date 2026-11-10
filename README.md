@@ -16,8 +16,11 @@ distance and a `runners` array, so any number of people can run a segment
 together:
 
 ```js
-{ id: 2, distanceKm: 10, runners: ['Janet', 'Sam', 'Alex'], ... }
+{ id: 2, name: 'Contermanskloof to Nitida', distanceKm: 10, runners: ['Janet', 'Sam', 'Alex'], ... }
 ```
+
+Leave `runners: []` empty until you know who's running a section; the site
+shows "Runners to be confirmed" for it.
 
 Segments run in order, and the km markers, handover flags on the map and the
 total distance are all worked out from the distances.

@@ -1,4 +1,4 @@
-import { SEGMENTS, formatDistance, joinNames } from '../data/legs.js';
+import { SEGMENTS, formatDistance } from '../data/legs.js';
 import { elevationBetween } from '../lib/elevation.js';
 
 // Hover only for a real mouse: on phones a tap also fires "hover" events,
@@ -34,7 +34,7 @@ export default function RelayTimeline({ activeId, onHover, onSelect }) {
               >
                 <span className="relay-km">km {s.startKm}</span>
                 <span className="relay-body">
-                  <span className="relay-runners">{joinNames(s.runners)}</span>
+                  <span className="relay-name">{s.name}</span>
                   <span className="relay-place">{s.place}</span>
                   <span className="relay-meta">
                     <span>{formatDistance(s.distanceKm)}</span>

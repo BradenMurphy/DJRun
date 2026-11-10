@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import L from 'leaflet';
 import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer, Tooltip, useMap } from 'react-leaflet';
-import { TOTAL_KM, joinNames } from '../data/legs.js';
+import { TOTAL_KM, joinNames, runnersLabel } from '../data/legs.js';
 import { haversineKm } from '../lib/geo.js';
 
 /** Dark text on light colours (the golds), white text on dark ones. */
@@ -33,9 +33,10 @@ const isTouch = () => window.matchMedia('(pointer: coarse)').matches;
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function handoverText(s) {
+  const where = s.startKm === 0 ? 'at the start' : `at km ${s.startKm}`;
+  if (!s.runners.length) return `The flag changes hands ${where}`;
   const verb = s.runners.length > 1 ? 'take' : 'takes';
-  if (s.startKm === 0) return `${joinNames(s.runners)} ${verb} the flag at the start`;
-  return `${joinNames(s.runners)} ${verb} the flag at km ${s.startKm}`;
+  return `${joinNames(s.runners)} ${verb} the flag ${where}`;
 }
 
 /** Zooms the map when asked: to one segment, or back out to the whole route. */
@@ -136,7 +137,7 @@ export default function RouteMap({
               >
                 {!touch && (
                   <Tooltip sticky>
-                    {joinNames(s.runners)}: km {s.startKm} to {s.endKm}
+                    {s.name}: {runnersLabel(s)}
                   </Tooltip>
                 )}
               </Polyline>
@@ -155,6 +156,8 @@ export default function RouteMap({
                 <strong>{handoverText(s)}</strong>
                 <br />
                 {s.place}
+                <br />
+                Section {s.id}: {s.name}
                 {s.startKm === 0 && (
                   <>
                     <br />
