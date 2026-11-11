@@ -1,4 +1,4 @@
-import { AFTER_RUN, SEGMENTS, TBC, TOTAL_KM, formatDistance } from '../data/legs.js';
+import { AFTER_RUN, RUN_START, SEGMENTS, TBC, TOTAL_KM, formatDistance } from '../data/legs.js';
 import { elevationBetween } from '../lib/elevation.js';
 import Flag from './Flag.jsx';
 
@@ -65,6 +65,9 @@ export default function Hero() {
           <span className="hero-year">2027</span>
         </h1>
         <p className="hero-sub">
+          <strong className="hero-when">
+            {RUN_START.day}, starting {RUN_START.time}
+          </strong>
           {TOTAL_KM} km around Contermanskloof, Durbanville, in {sectionCount} sections. One flag,
           passed from hand to hand, and it doesn't touch the ground until we're home.
         </p>

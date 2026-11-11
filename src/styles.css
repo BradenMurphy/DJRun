@@ -114,6 +114,11 @@ p {
   max-width: 34ch;
 }
 
+.hero-when {
+  display: block;
+  margin-bottom: 0.4em;
+}
+
 .hero-flag {
   grid-area: flag;
   align-self: end;

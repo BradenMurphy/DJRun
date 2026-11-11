@@ -55,6 +55,12 @@ const RELAY = [
   },
 ];
 
+// When we start. Shown at the top of the page.
+export const RUN_START = {
+  day: 'Sunday 22 November',
+  time: '5:30 am',
+};
+
 // Where we go after the run. Shown after the last section at the top of the page.
 export const AFTER_RUN = {
   title: 'After the run',
